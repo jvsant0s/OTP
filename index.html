@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Gerador de Chave OTP</title>
+</head>
+<body>
+  <h1>OTP Key:</h1>
+  <div id="otp"></div>
+  <p id="status"></p>
+  
+  <script>
+function generateOTP() {
+  const digits = '0123456789';
+  let OTP = '';
+  
+  for(let i = 0; i < 6; i++) {
+    OTP += digits[Math.floor(Math.random() * 10)];
+  }
+  
+  return OTP;
+}
+
+function isValid(otp, time) {
+  const currentTime = Date.now();
+  const otpTime = parseInt(otp.slice(-9));
+  
+  return (otpTime + time * 1000 > currentTime);
+}
+
+function generateOTPToken() {
+  const OTP = generateOTP();
+  const currentTime = Date.now();
+  const token = OTP + (currentTime.toString()).slice(-9);
+  return token;
+}
+
+function validateOTPToken(token, time) {
+  const OTP = token.slice(0, 6);
+  return isValid(token, time);
+}
+
+// Exemplo de uso:
+const otpToken = generateOTPToken();
+console.log(`Senha OTP: ${otpToken.slice(0, 6)}`);
+
+// Exibe a senha OTP na página
+const otpElement = document.getElementById("otp");
+otpElement.innerHTML = otpToken.slice(0, 6);
+
+// Espera 30 segundos
+setTimeout(() => {
+  const valid = validateOTPToken(otpToken, 30);
+  if(valid) {
+    console.log('Senha OTP válida!');
+  } else {
+    console.log('Senha OTP expirada!');
+    const statusElement = document.getElementById("status");
+    statusElement.innerHTML = "Senha OTP expirada!";
+  }
+}, 30000);
+
+  </script>
+</body>
+</html>
