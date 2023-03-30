@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Gerador de Chave OTP</title>
+</head>
+<body>
+  <h1>OTP Key:</h1>
+  <div id="otp"></div>
+  
+  <script>
+    function generateOTP() {
+      const otp = Math.floor(100000 + Math.random() * 900000);
+      document.getElementById("otp").innerHTML = otp;
+    }    
+    generateOTP();
+  </script>
+</body>
+</html>
